@@ -20,6 +20,7 @@ class CreatePenjualanDetailTable extends Migration
             $table->integer('harga_jual');
             $table->integer('jumlah');
             $table->tinyInteger('diskon')->default(0);
+            $table->integer('subtotal');
             $table->timestamps();
         });
     }
