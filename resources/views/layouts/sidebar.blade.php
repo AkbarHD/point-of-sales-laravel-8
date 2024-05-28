@@ -16,7 +16,7 @@
          <!-- sidebar menu: : style can be found in sidebar.less -->
          <ul class="sidebar-menu" data-widget="tree">
              <li>
-                 <a href="pages/widgets.html">
+                 <a href="{{ route('dashboard') }}">
                      <i class="fa fa-dashboard"></i> <span>Dashboard</span>
                      <span class="pull-right-container">
                      </span>
@@ -26,14 +26,14 @@
              <li class="header">Master</li>
 
              <li>
-                 <a href="pages/widgets.html">
+                 <a href="javascript:;">
                      <i class="fa fa-dashboard"></i> <span>Kategori</span>
                      <span class="pull-right-container">
                      </span>
                  </a>
              </li>
              <li>
-                 <a href="pages/widgets.html">
+                 <a href="javascript:;">
                      <i class="fa fa-dashboard"></i> <span>Produk</span>
                      <span class="pull-right-container">
                      </span>
