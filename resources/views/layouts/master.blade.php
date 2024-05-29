@@ -31,6 +31,10 @@
     <!-- bootstrap wysihtml5 - text editor -->
     <link rel="stylesheet" href=" {{ asset('adminlte/ plugins/bootstrap-wysihtml5/bootstrap3-wysihtml5.min.css ') }}">
 
+    <!-- DataTables -->
+    <link rel="stylesheet"
+        href="{{ asset('adminlte/bower_components/datatables.net-bs/css/dataTables.bootstrap.min.css') }}">
+
 
 
     <!-- Google Font -->
@@ -118,6 +122,14 @@
     <script src="{{ asset('adminlte/dist/js/pages/dashboard2.js') }}"></script>
     <!-- AdminLTE for demo purposes -->
     <script src="{{ asset('adminlte/dist/js/demo.js') }}"></script>
+
+    <!-- DataTables -->
+    <script src="{{ asset('adminlte/bower_components/datatables.net/js/jquery.dataTables.min.js ') }}"></script>
+    <script src="{{ asset('adminlte/bower_components/datatables.net-bs/js/dataTables.bootstrap.min.js ') }}"></script>
+
+
+    <script src="{{ asset('js/validator.min.js') }}"></script>
+    @stack('after-script')
 </body>
 
 </html>

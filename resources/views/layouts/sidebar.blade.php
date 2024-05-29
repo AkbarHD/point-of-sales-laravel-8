@@ -26,7 +26,7 @@
              <li class="header">Master</li>
 
              <li>
-                 <a href="javascript:;">
+                 <a href="{{ route('kategori.index') }}">
                      <i class="fa fa-dashboard"></i> <span>Kategori</span>
                      <span class="pull-right-container">
                      </span>
