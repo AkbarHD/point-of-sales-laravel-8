@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Kategori;
 use Illuminate\Http\Request;
 
 class KategoriController extends Controller
@@ -21,6 +22,23 @@ class KategoriController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
+
+    public function data()
+    {
+        $kategori = Kategori::orderBy('id_kategori', 'DESC')->get();
+        return datatables()
+            ->of($kategori)
+            ->addIndexColumn()
+            ->addColumn('aksi', function ($kategori) {
+                // harus pake backtik
+                return '
+                    <button onclick="editForm(`' . route('kategori.update', $kategori->id_kategori) . '`)" class="btn btn-xs btn-info btn-flat"><i class="fa fa-edit"></i></button>
+                    <button onclick="deleteData(`' . route('kategori.destroy', $kategori->id_kategori) . '`)" class="btn btn-xs btn-danger btn-flat"><i class="fa fa-trash"></i></button>
+                ';
+            })
+            ->rawColumns(['aksi'])
+            ->make(true);
+    }
     public function create()
     {
         //
@@ -34,7 +52,11 @@ class KategoriController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        $kategori = new Kategori();
+        $kategori->nama_kategori = $request->nama_kategori; // Perbaikan disini
+        $kategori->save();
+
+        return response()->json('Data berhasil disimpan', 200);
     }
 
     /**
@@ -45,7 +67,8 @@ class KategoriController extends Controller
      */
     public function show($id)
     {
-        //
+        $kategori = Kategori::find($id);
+        return response()->json($kategori);
     }
 
     /**
@@ -68,7 +91,11 @@ class KategoriController extends Controller
      */
     public function update(Request $request, $id)
     {
-        //
+        $kategori = Kategori::find($id);
+        $kategori->nama_kategori = $request->nama_kategori; // Perbaikan disini
+        $kategori->save();
+
+        return response()->json('Data Berhasil disimpan', 200);
     }
 
     /**
