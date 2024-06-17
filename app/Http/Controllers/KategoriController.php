@@ -32,7 +32,7 @@ class KategoriController extends Controller
             ->addColumn('aksi', function ($kategori) {
                 // harus pake backtik
                 return '
-                    <button onclick="editForm(`' . route('kategori.update', $kategori->id_kategori) . '`)" class="btn btn-xs btn-info btn-flat"><i class="fa fa-edit"></i></button>
+                     <button onclick="editForm(`' . route('kategori.update', $kategori->id_kategori) . '`)" class="btn btn-xs btn-info btn-flat"><i class="fa fa-edit"></i></button>
                     <button onclick="deleteData(`' . route('kategori.destroy', $kategori->id_kategori) . '`)" class="btn btn-xs btn-danger btn-flat"><i class="fa fa-trash"></i></button>
                 ';
             })
@@ -106,6 +106,8 @@ class KategoriController extends Controller
      */
     public function destroy($id)
     {
-        //
+        $kategori = Kategori::find($id);
+        $kategori->delete();
+        return response(null, 204);
     }
 }

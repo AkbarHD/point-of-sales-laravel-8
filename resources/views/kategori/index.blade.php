@@ -41,25 +41,74 @@
 
 @push('after-script')
     <script>
-        $(document).ready(function() {
+        // Definisikan fungsi di scope global
+        function addForm(url) {
+            $('#modal-form').modal('show');
+            $('#modal-form .modal-title').text('Tambah Kategori');
+
+            $('#modal-form form')[0].reset();
+            $('#modal-form form').attr('action', url);
+            $('#modal-form [name=_method]').val('post');
+            $('#modal-form [name=nama_kategori]').focus();
+        }
+
+        function editForm(url) {
+            $('#modal-form').modal('show');
+            $('#modal-form .modal-title').text('Edit Kategori');
+
+            $('#modal-form form')[0].reset();
+            $('#modal-form form').attr('action', url);
+            $('#modal-form [name=_method]').val('put');
+            $('#modal-form [name=nama_kategori]').focus();
+
+            // Ambil data agar pas di edit sudah ada nama sebelumnya
+            $.get(url)
+                .done((response) => {
+                    $('#modal-form [name=nama_kategori]').val(response.nama_kategori);
+                })
+                .fail((errors) => {
+                    alert('Tidak dapat menampilkan data');
+                    return;
+                })
+        }
+
+        function deleteData(url) {
+            if (confirm('Apakah Anda yakin ingin menghapus data ini?')) {
+                $.post(url, {
+                        '_token': $('[name=csrf-token]').attr('content'),
+                        '_method': 'delete'
+                    })
+                    .done((response) => {
+                        console.log('Data berhasil dihapus', response);
+                        $('.table').DataTable().ajax.reload(); // Reload table data
+                    })
+                    .fail((errors) => {
+                        console.error('Tidak dapat menghapus data', errors);
+                        alert('Tidak dapat menghapus data');
+                        return;
+                    });
+            }
+        }
+
+        // Setup DataTable
+        function setupDataTable() {
             var table = $('.table').DataTable({
                 processing: true,
-                'autoWidth': false,
-                'ajax': {
+                autoWidth: false,
+                ajax: {
                     'url': '{{ route('kategori.data') }}'
                 },
                 columns: [{
                         data: 'DT_RowIndex',
-                        searchable: false,
-                        sortable: false,
+                        name: 'DT_RowIndex',
                     },
                     {
-                        data: 'nama_kategori'
+                        data: 'nama_kategori',
+                        name: 'nama_kategori',
                     },
                     {
                         data: 'aksi',
-                        searchable: false,
-                        sortable: false,
+                        name: 'aksi',
                     },
                 ]
             });
@@ -81,40 +130,10 @@
                         });
                 }
             });
+        }
 
-            function addForm(url) {
-                $('#modal-form').modal('show');
-                $('#modal-form .modal-title').text('Tambah Kategori');
-
-                $('#modal-form form')[0].reset();
-                $('#modal-form form').attr('action', url);
-                $('#modal-form [name=_method]').val('post');
-                $('#modal-form [name=nama_kategori]').focus();
-            }
-
-            function editForm(url) {
-                $('#modal-form').modal('show');
-                $('#modal-form .modal-title').text('Edit Kategori');
-
-                $('#modal-form form')[0].reset();
-                $('#modal-form form').attr('action', url);
-                $('#modal-form [name=_method]').val('put');
-                $('#modal-form [name=nama_kategori]').focus();
-
-                // Ambil data agar pas di edit sudah ada nama sebelumnya
-                $.get(url)
-                    .done((response) => {
-                        $('#modal-form [name=nama_kategori]').val(response.nama_kategori);
-                    })
-                    .fail((errors) => {
-                        alert('Tidak dapat menampilkan data');
-                        return;
-                    })
-            }
-
-            // Pastikan fungsi addForm dan editForm terikat ke window agar bisa diakses global
-            window.addForm = addForm;
-            window.editForm = editForm;
+        $(document).ready(function() {
+            setupDataTable();
         });
     </script>
 @endpush
